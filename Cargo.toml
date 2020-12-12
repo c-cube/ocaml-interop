@@ -20,3 +20,6 @@ ocaml-sys = "0.18.1"
 
 [features]
 docs-rs = ["ocaml-sys/docs-rs"]
+
+[workspace]
+members = ["derive"]
