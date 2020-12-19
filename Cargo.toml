@@ -20,3 +20,4 @@ ocaml-sys = "0.18.1"
 
 [features]
 docs-rs = ["ocaml-sys/docs-rs"]
+without-ocamlopt = ["ocaml-sys/without-ocamlopt"]
