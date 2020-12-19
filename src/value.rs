@@ -161,7 +161,7 @@ impl<'a> OCaml<'a, OCamlBytes> {
 impl<'a> OCaml<'a, OCamlInt> {
     /// Converts an OCaml int to an `i64`.
     pub fn as_i64(&self) -> i64 {
-        int_val(self.raw) as i64
+        unsafe { int_val(self.raw) as i64 }
     }
 
     /// Creates an OCaml int from an `i64` without checking that it fits in an OCaml fixnum.
@@ -189,7 +189,7 @@ impl<'a> OCaml<'a, OCamlInt> {
         } else {
             Ok(OCaml {
                 _marker: PhantomData,
-                raw: val_int(n as isize),
+                raw: unsafe { val_int(n as isize) },
             })
         }
     }
@@ -198,7 +198,7 @@ impl<'a> OCaml<'a, OCamlInt> {
     pub fn of_i32(n: i32) -> OCaml<'static, OCamlInt> {
         OCaml {
             _marker: PhantomData,
-            raw: val_int(n as isize),
+            raw: unsafe { val_int(n as isize) },
         }
     }
 }
@@ -206,7 +206,7 @@ impl<'a> OCaml<'a, OCamlInt> {
 impl<'a> OCaml<'a, bool> {
     /// Converts an OCaml boolean into a Rust boolean.
     pub fn as_bool(self) -> bool {
-        int_val(self.raw) != 0
+        unsafe { int_val(self.raw) != 0 }
     }
 
     /// Creates an OCaml boolean from a Rust boolean.
