@@ -9,10 +9,28 @@ use crate::{memory::OCamlRef, value::OCaml};
 
 /// OCaml runtime handle.
 ///
-/// Should be initialized once at the beginning of the program
+/// There are two main ways of obtaining this handle:
+///
+/// ## Global access from Rust
+///
+/// The handle should be initialized once at the beginning of the program
 /// and the obtained handle passed around.
 ///
 /// Once the handle is dropped, the OCaml runtime will be shutdown.
+///
+/// ## Access from stubs called from OCaml
+///
+/// In the following, an implicit `gc` parameter of type `&mut Runtime`
+/// is passed to the rust stub:
+///
+/// ```rust
+/// #[ocaml::func]
+/// pub fn foo(x: isize, y: float) {
+///     gc.releasing_runtime(|| {
+///         do_heavy_stuff(x, y)
+///     })
+/// }
+/// ```
 pub struct OCamlRuntime {
     _private: (),
 }
